@@ -1,10 +1,7 @@
 import React from 'react';
 
-import {Outlet,} from 'react-router-dom';
-
 import { 
     Dropdown,
-    Link,
     Header,
     HeaderContainer,
     HeaderName,
@@ -16,6 +13,8 @@ import {
     SideNav,
     SideNavItems,
 } from '@carbon/react';
+
+import {Link } from 'react-router-dom';
 
 import { Home } from '@carbon/icons-react';
 

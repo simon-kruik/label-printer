@@ -1,7 +1,7 @@
 //import logo from './logo.svg';
 import './app.scss';
 import { Route, Routes, Outlet } from 'react-router';
-import { Content, FlexGrid, Row, Column } from '@carbon/react';
+import { Content, FlexGrid, Row, Column, Theme } from '@carbon/react';
 import React, { useState, useEffect } from 'react';
 import NavHeader from './components/NavHeader';
 import PatientSearch from './components/PatientSearch';
@@ -29,7 +29,9 @@ function IntroText(props) {
 function UIShell(props) {
   return (
   <>
+  <Theme theme="g10">
   <NavHeader data={props.data} onDataChange={props.onDataChange}/>
+  </Theme>
   <Content>
     <Outlet/>
   </Content>
