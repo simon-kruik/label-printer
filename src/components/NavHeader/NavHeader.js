@@ -1,4 +1,6 @@
-import React, {    useState,} from 'react';
+import React from 'react';
+
+import {Outlet,} from 'react-router-dom';
 
 import { 
     Dropdown,
@@ -6,12 +8,13 @@ import {
     Header,
     HeaderContainer,
     HeaderName,
-    HeaderGlobalAction,
+    HeaderSideNavItems,
     HeaderGlobalBar,
     HeaderNavigation,
     HeaderMenuButton,
     HeaderMenuItem,
-    Theme
+    SideNav,
+    SideNavItems,
 } from '@carbon/react';
 
 import { Home } from '@carbon/icons-react';
@@ -54,29 +57,41 @@ const NavHeader = (props) => {
   
 
     return (
-    
-        <Header aria-label="Annoor Label Printer">
-            <Link href="https://10.10.10.245" renderIcon={Home} />
-            <HeaderName as={Link} to="/" prefix="Annoor">Label Printer</HeaderName>
-            <HeaderNavigation aria-label="Label Printer">
-                <HeaderMenuItem as={Link} to="/patient_search">Patient Search</HeaderMenuItem>
-                <HeaderMenuItem as={Link} to="/custom_print">Design Custom Print</HeaderMenuItem>
-                <HeaderMenuItem as={Link} to="/history">History</HeaderMenuItem>
-                
-            </HeaderNavigation>
-            <HeaderGlobalBar>
-                <Dropdown 
-                    className="printer-dropdown" 
-                    id="printer-select" 
-                    label=" Select Printer" 
-                    type="inline" 
-                    onChange={handleChangePrinter} 
-                    items={printers} 
-                    itemToString={item => item ? item.text :''}
-                    selectedItem={ props.data ? getPrinter(props.data) : ''}
-                />
-            </HeaderGlobalBar>
-        </Header>
+        <>
+        <HeaderContainer render={({
+            isSideNavExpanded, onClickSideNavExpand
+        }) => <Header aria-label="Annoor Label Printer">
+                <HeaderMenuButton aria-label={isSideNavExpanded ? 'Close menu' : 'Open menu'} onClick={onClickSideNavExpand} isActive={isSideNavExpanded} aria-expanded={isSideNavExpanded} />
+                <Link href="https://10.10.10.245" renderIcon={Home} />
+                <HeaderName as={Link} to="/" prefix="Annoor">Label Printer</HeaderName>
+                <HeaderNavigation aria-label="Label Printer">
+                    <HeaderMenuItem as={Link} to="/patient_search">Patient Search</HeaderMenuItem>
+                    <HeaderMenuItem as={Link} to="/custom_print">Design Custom Print</HeaderMenuItem>
+                    <HeaderMenuItem as={Link} to="/history">History</HeaderMenuItem>
+
+                </HeaderNavigation>
+                <HeaderGlobalBar>
+                    <Dropdown
+                        className="printer-dropdown"
+                        id="printer-select"
+                        label=" Select Printer"
+                        type="inline"
+                        onChange={handleChangePrinter}
+                        items={printers}
+                        itemToString={item => item ? item.text : ''}
+                        selectedItem={props.data ? getPrinter(props.data) : ''} />
+                </HeaderGlobalBar>
+                <SideNav aria-label="Side navigation" expanded={isSideNavExpanded} onOverlayClick={onClickSideNavExpand} href="#main-content" onSideNavBlur={onClickSideNavExpand} isRail>
+                    <SideNavItems>
+                        {isSideNavExpanded && <HeaderSideNavItems hasDivider={true}>
+                            <HeaderMenuItem as={Link} to="/patient_search">Patient Search</HeaderMenuItem>
+                            <HeaderMenuItem as={Link} to="/custom_print">Design Custom Print</HeaderMenuItem>
+                            <HeaderMenuItem as={Link} to="/history">History</HeaderMenuItem>
+                        </HeaderSideNavItems>}
+                    </SideNavItems>
+                </SideNav>
+            </Header>} />
+            </>
     );
 }
 

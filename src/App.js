@@ -1,8 +1,8 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './app.scss';
-import { Route, Routes, } from 'react-router';
+import { Route, Routes, Outlet } from 'react-router';
 import { Content, FlexGrid, Row, Column } from '@carbon/react';
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavHeader from './components/NavHeader';
 import PatientSearch from './components/PatientSearch';
 
@@ -10,6 +10,31 @@ import PatientSearch from './components/PatientSearch';
 function load(key) {
   const item = window.sessionStorage.getItem(key);
   return item != null ? JSON.parse(item) : [];
+}
+
+function IntroText(props) {
+  return (
+  <FlexGrid>
+        <Row>
+          <Column sm={4} md={6} lg={8}>
+          <h3>
+            Welcome to the Label Printer application - to get started choose your label printer in the top right and then select an option from the top to start printing. <br/><br/>Current printer: {props.data}
+          </h3>
+          </Column>
+        </Row>
+      </FlexGrid>
+  );  
+}
+
+function UIShell(props) {
+  return (
+  <>
+  <NavHeader data={props.data} onDataChange={props.onDataChange}/>
+  <Content>
+    <Outlet/>
+  </Content>
+  </>
+  );
 }
 
 function App()  {
@@ -25,31 +50,19 @@ function App()  {
     sessionStorage.setItem('printerIP',JSON.stringify(printerIP));
   }, [printerIP]);
 
-
-  const IntroText = (
-    <FlexGrid>
-          <Row>
-            <Column sm={4} md={6} lg={8}>
-            <h3>
-              Welcome to the Label Printer application - to get started choose your label printer in the top right and then select an option from the top to start printing. <br/><br/>Current printer: {printerIP}
-            </h3>
-            </Column>
-          </Row>
-        </FlexGrid>
-  );
   // Main App return
   return (
   <>
-
-    <NavHeader data={printerIP} onDataChange={updatePrinterIP}/>
-    <Content>
       <Routes>
-        <Route exact path="/" element={IntroText}/>
-        <Route path="patient_search" element={PatientSearch}/>
+        <Route path="/" element={<UIShell data={printerIP} onDataChange={updatePrinterIP}/>}>
+          <Route index element={<IntroText data={printerIP}/>}/>
+          <Route path="patient_search" element={<PatientSearch/>}/>
+        </Route>
       </Routes>
-    </Content>
   </>
   );
 }
+
+
 
 export default App;
