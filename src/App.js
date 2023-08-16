@@ -1,7 +1,7 @@
 //import logo from './logo.svg';
 import './app.scss';
 import { Route, Routes, Outlet } from 'react-router';
-import { Content, FlexGrid, Row, Column, Theme } from '@carbon/react';
+import { Content, FlexGrid, Row, Column, Theme, IconTab } from '@carbon/react';
 import React, { useState, useEffect } from 'react';
 import NavHeader from './components/NavHeader';
 import PatientSearch from './components/PatientSearch';
@@ -20,6 +20,9 @@ function IntroText(props) {
           <h3>
             Welcome to the Label Printer application - to get started choose your label printer in the top right and then select an option from the top to start printing. <br/><br/>Current printer: {props.data}
           </h3>
+          <p>
+            Currently running this application in <strong>{process.env.NODE_ENV}</strong> mode
+          </p>
           </Column>
         </Row>
       </FlexGrid>
