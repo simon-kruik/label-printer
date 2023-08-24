@@ -16,7 +16,9 @@ import {
     Theme,
 } from '@carbon/react';
 
-const PatientTable = ({ headers, rows, searchAction=() => void 0 }) => {
+const PatientTable = ({ headers, rows }) => {
+    
+    console.log("PatientTable got these rows: ", rows)
     return (
         <Theme theme="g10">
         <DataTable
@@ -37,7 +39,7 @@ const PatientTable = ({ headers, rows, searchAction=() => void 0 }) => {
                     <TableToolbar>
                         <TableToolbarContent>
                             <TableToolbarSearch persistent placeholder="Enter Patient Name"/>
-                            <Button onClick={searchAction()}>Search</Button>
+                            <Button>Search</Button>
                         </TableToolbarContent>
                     </TableToolbar>
                     <Table {...getTableProps()}>

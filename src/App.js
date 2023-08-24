@@ -1,10 +1,10 @@
 //import logo from './logo.svg';
 import './app.scss';
 import { Route, Routes, Outlet } from 'react-router';
-import { Content, FlexGrid, Row, Column, Theme, IconTab } from '@carbon/react';
+import { Content, FlexGrid, Row, Column, Theme } from '@carbon/react';
 import React, { useState, useEffect } from 'react';
 import NavHeader from './components/NavHeader';
-import PatientSearch from './components/PatientSearch';
+import PatientSearchPage from './content/PatientSearchPage';
 
 
 function load(key) {
@@ -20,9 +20,11 @@ function IntroText(props) {
           <h3>
             Welcome to the Label Printer application - to get started choose your label printer in the top right and then select an option from the top to start printing. <br/><br/>Current printer: {props.data}
           </h3>
-          <p>
-            Currently running this application in <strong>{process.env.NODE_ENV}</strong> mode
-          </p>
+          {(process.env.NODE_ENV !== "production") &&
+            <p>
+              Currently running this application in <strong>{process.env.NODE_ENV}</strong> mode
+            </p>
+          }
           </Column>
         </Row>
       </FlexGrid>
@@ -61,7 +63,7 @@ function App()  {
       <Routes>
         <Route path="/" element={<UIShell data={printerIP} onDataChange={updatePrinterIP}/>}>
           <Route index element={<IntroText data={printerIP}/>}/>
-          <Route path="patient_search" element={<PatientSearch/>}/>
+          <Route path="patient_search" element={<PatientSearchPage/>}/>
         </Route>
       </Routes>
   </>
