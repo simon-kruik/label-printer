@@ -1,0 +1,7 @@
+@use '@carbon/react' with (
+    $use-flexbox-grid: true
+);
+
+.column {
+    align-items: center;
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
     Button,
@@ -16,9 +16,27 @@ import {
     Theme,
 } from '@carbon/react';
 
-const PatientTable = ({ headers, rows }) => {
-    
-    console.log("PatientTable got these rows: ", rows)
+
+const PatientTable = ({ headers, rows, searchAction }) => {
+    const [searchTerm, setSearchTerm] = useState();
+
+    const setTermForFutureSearch = (changeObj) => {
+        setSearchTerm(changeObj.target.value);
+    }
+
+    const getTermAndSearch = () => {
+        //console.log("Searching for: ",searchTerm);
+        searchAction(searchTerm);
+    }
+
+    const handleSearchKey = (keyEvent) => {
+        if (keyEvent.keyCode === 13) {
+            getTermAndSearch();
+        }
+    }
+
+
+    //console.log("PatientTable got these rows: ", rows)
     return (
         <Theme theme="g10">
         <DataTable
@@ -38,8 +56,8 @@ const PatientTable = ({ headers, rows }) => {
                 >
                     <TableToolbar>
                         <TableToolbarContent>
-                            <TableToolbarSearch persistent placeholder="Enter Patient Name"/>
-                            <Button>Search</Button>
+                            <TableToolbarSearch onKeyDown={handleSearchKey}  onChange={setTermForFutureSearch} id="patient-search" persistent placeholder="Enter Patient Name or Identifier"/>
+                            <Button onClick={getTermAndSearch}>Search</Button>
                         </TableToolbarContent>
                     </TableToolbar>
                     <Table {...getTableProps()}>
