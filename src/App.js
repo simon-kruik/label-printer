@@ -5,7 +5,7 @@ import { Content, FlexGrid, Row, Column, Theme } from '@carbon/react';
 import React, { useState, useEffect } from 'react';
 import NavHeader from './components/NavHeader';
 import PatientSearchPage from './content/PatientSearchPage';
-
+import HistoryPage from './content/HistoryPage';
 
 function load(key) {
   const item = window.sessionStorage.getItem(key);
@@ -64,6 +64,7 @@ function App()  {
         <Route path="/" element={<UIShell data={printerIP} onDataChange={updatePrinterIP}/>}>
           <Route index element={<IntroText data={printerIP}/>}/>
           <Route path="patient_search" element={<PatientSearchPage/>}/>
+          <Route path="history" element={<HistoryPage/>}/>
         </Route>
       </Routes>
   </>

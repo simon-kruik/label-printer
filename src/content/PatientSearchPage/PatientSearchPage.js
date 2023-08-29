@@ -44,7 +44,7 @@ const getRowItems = (row) => {
                 age: row.person.age,
                 display_name: row.person.display,
                 gender: row.person.gender,
-                print: <PrintDialog/>,
+                print: <PrintDialog line1={row.display.split('-')[0]} line2={row.person.display} line3={"Gender: " + row.person.gender + " | Age: " + row.person.age}/>,
             }
         
         if (row['person']){
@@ -58,7 +58,7 @@ const getRowItems = (row) => {
                         age: row.person.age,
                         display_name: row.person.display,
                         gender: row.person.gender,
-                        print: <PrintDialog/>,
+                        print: <PrintDialog line1={row.display.split('-')[0]} line2={row.person.display} line3={"Gender: " + row.person.gender + " | Age: " + row.person.age}/>,
                     }
                 }
             }

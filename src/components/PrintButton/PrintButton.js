@@ -6,7 +6,7 @@ import { Printer } from '@carbon/icons-react';
 
 const PrintButton = (props) => {
     return (
-        <Button renderIcon={Printer} iconDescription="printer" onClick={props.onClick}>Print</Button>
+        <Button renderIcon={Printer} iconDescription="printer" onClick={props.onClick} size={props.size}>Print</Button>
     )
 }
 

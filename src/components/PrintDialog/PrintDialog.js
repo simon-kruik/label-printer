@@ -1,41 +1,95 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useState} from 'react';
 import { FlexGrid, Row, Column, Popover, PopoverContent, NumberInput } from '@carbon/react';
 import PrintButton from '../PrintButton';
+import SetupPrinter from './PrintLogic';
+
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+
+
+const styles = StyleSheet.create({
+    page: {
+        flexDirection:'row',
+        backgroundColor: "#E4E4E4"
+    },
+    section: {
+        margin: 2,
+        padding: 5,
+        flexGrow: 1
+    }
+})
+
+
+{/*
+const generatePDF = async (lines) => {
+    const doc = new pdf.Document({
+        font: Helvetica,
+        width: 45 * pdf.mm,
+        height: 23 * pdf.mm,
+        lineHeight: 1,
+        paddingLeft: 0,
+        paddingRight: 0,
+    });
+    lines.forEach((line) => {
+        doc.text(line, {fontSize: 12.5, font: Helvetica, textAlign: "center"});
+    });
+    
+    const docBuf = await doc.asBuffer();
+    const blob = new Blob([docBuf], {type: 'application/pdf'});
+    return blob
+}
+*/}
 
 const PrintDialog = (props) => {
+
+
     const [open, setOpen] = useState(false);
+    
 
     return (
         <>
-        <Popover autoAlign open={open} onRequestClose={() => setOpen(false)}>
+        <Popover autoAlign caret={false} open={open} onRequestClose={() => setOpen(false)}>
             <PrintButton onClick={() => {
                 setOpen(!open); 
             }}/>
             <PopoverContent>
-                <FlexGrid fullWidth>
+                <FlexGrid fullWidth condensed>
                 <Row>
-                    <Column lg={{span: 4, offset: 6}}>
+      
+                </Row>
+
+                {/*<Row>
+                    <Column lg={{span: 10, offset: 1}}>
+                    <div className="print-lines">
                     <p>
-                        Line 1
+                        {props.line1}
                     </p>
+                    </div>
                     </Column>
                 </Row>
                 <Row>
+                    <Column lg={{span: 10, offset: 1}}>
+                    <div className="print-lines">
                     <p>
-                        Line 2
+                        {props.line2}
                     </p>
+                    </div>
+                    </Column>
                 </Row><Row>
+                    <Column lg={{span: 10, offset: 1}}>
+                    <div className="print-lines">  
                     <p>
-                        Line 3
+                        {props.line3}
                     </p>
-                </Row>
+                    </div>
+                    </Column>
+        </Row>*/}
                 <Row>
-                    <Column sm={3} md={6} lg={12}>
+                    <Column sm={2} md={4} lg={8}>
                         <NumberInput id="print-copies" min={1} max={100} value={1} label="Amount of Copies" invalidText="Please enter a number between 1 and 100"/>
                     </Column>
-                    <Column sm={1} md={2} lg={4}>
-                        <PrintButton/>
+                    <Column sm={1} md={1} lg={4}>
+                        <PrintButton size="sm" onClick={SetupPrinter}/>
                     </Column>       
                 </Row>
             </FlexGrid>

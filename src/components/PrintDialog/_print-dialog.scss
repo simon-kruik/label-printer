@@ -1,7 +1,16 @@
-@use '@carbon/react' with (
-    $use-flexbox-grid: true
-);
 
-.column {
-    align-items: center;
+
+
+.print-lines {
+    width: 375px;
+}
+
+p {
+    text-align: center;
+}
+
+
+.cds--grid {
+    padding-right: 0;
+    padding-left: 0;
 }

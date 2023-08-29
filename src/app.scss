@@ -4,6 +4,7 @@
 );
 
 @use './components/NavHeader/nav-header';
+@use './components/PrintDialog/print-dialog';
 
 .cds--content {
     margin-top: 3rem;
