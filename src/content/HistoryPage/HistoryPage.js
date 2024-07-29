@@ -1,20 +1,20 @@
 import React from 'react';
-import { PDFViewer, Page, Text, View, Document, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
-
+import ReactPDF from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, } from '@react-pdf/renderer';
+import {PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
     page: {
-        //flexDirection:'row',
-        backgroundColor: "#E4E4E4",
+        //flexDirection:'column',
+        backgroundColor: "#FFFFFF",
+        alignItems:'center',
+        paddingTop: 40,
         
     },
-    section: {
-        margin: 2,
-        padding: 5,
-        flexGrow: 0
-    },
     text: {
-        wrap: 'false',
+        textAlign: 'justify',
+        overflowWrap: 'break-word',
+        fontSize: '28',
 
     }
 })
@@ -22,15 +22,24 @@ const styles = StyleSheet.create({
 const HistoryPage = () => {
     return (
     <>
-    <Document>
-    <Page size={[64, 128]} wrap={false} orientation="landscape" dpi={203} style={styles.page}>
-        <View wrap={false} style={styles.section}>
-            <Text>Line 1</Text>
-            <Text>Line 2</Text>
-        </View>
+  <PDFViewer>
+        <Document>
+        <Page size={[64, 128]} orientation="landscape" dpi={203} style={styles.page}>
+            <View>
+                <View style={styles.text}>
+                    <Text>Line 1<br/></Text>
+                </View>
+                <View style={styles.text}>
+                    <Text>Line 2<br/></Text>
+                </View>
+                <View style={styles.text}>
+                    <Text>Line 3<br/></Text>
+                </View>
+            </View>
 
-    </Page>
-    </Document>
+        </Page>
+        </Document>
+        </PDFViewer>
     </>
     );
 }
