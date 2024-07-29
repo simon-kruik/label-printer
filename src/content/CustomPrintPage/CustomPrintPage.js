@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     }
 })
 
-const HistoryPage = () => {
+const CustomPrintPage = () => {
     return (
     <>
   <PDFViewer showToolbar={true} id="LabelPDF"> 
@@ -48,4 +48,4 @@ const HistoryPage = () => {
 }
 
 
-export default HistoryPage;
+export default CustomPrintPage;
