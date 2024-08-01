@@ -3,8 +3,10 @@ import {useState} from 'react';
 import { FlexGrid, Row, Column, Popover, PopoverContent, NumberInput } from '@carbon/react';
 import PrintButton from '../PrintButton';
 import SetupPrinter from './PrintLogic';
+import JsBarcode from 'jsbarcode';
 
-import { PDFViewer, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+
+import { PDFViewer, Page, Image, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 
 const styles = StyleSheet.create({
@@ -17,13 +19,19 @@ const styles = StyleSheet.create({
         //flexDirection:'column',
         backgroundColor: "#FFFFFF",
         alignItems:'center',
-        paddingTop: 40,
+        paddingTop: 13,
         
     },
     text: {
         textAlign: 'justify',
         overflowWrap: 'break-word',
-        fontSize: '28',
+        fontSize: '13',
+        fontWeight: 'bold',
+    },
+    image: {
+        height: 28,
+        width: 100,
+   //     transform: "rotate(270deg)"
     }
 });
 
@@ -50,9 +58,11 @@ const generatePDF = async (lines) => {
 
 const PrintDialog = (props) => {
 
-
+    let canvas;
     const [open, setOpen] = useState(false);
-    
+    canvas = document.createElement('canvas');
+    JsBarcode(canvas, props.line1, {"textPosition":"top","height":30,});
+    const barcode = canvas.toDataURL();
 
     return (
         <>
@@ -64,8 +74,8 @@ const PrintDialog = (props) => {
                 <FlexGrid fullWidth condensed>
                 <Row>
                 <>
-                <PDFViewer showToolbar={false}>
-                        <Document>
+                <PDFViewer showToolbar={false} id={"LabelPDF" + props.line1}>
+                        {/*}      <Document>
                         <Page size={[64, 128]} orientation="landscape" dpi={203} style={styles.page}>
                             <View>
                                 <View style={styles.text}>
@@ -82,6 +92,24 @@ const PrintDialog = (props) => {
                         </Page>
                         </Document>
                         </PDFViewer>
+                        <PDFViewer showToolbar={true} id="LabelPDF"> */}
+                    <Document>
+                        <Page size={[25, 50]} orientation="landscape" dpi={203} style={styles.page}>
+                        <View>
+                            <View style={styles.text}>
+                                <Text>{props.line2}<br/></Text>
+                            </View>
+                            <View style={styles.text}>
+                                <Text>{props.line3}<br/></Text>
+                            </View>
+                            <View style={styles.text}>
+                                <Image src={barcode} style={styles.image}/>
+                            </View>
+                        </View>
+
+                        </Page>
+                    </Document>
+                </PDFViewer>
                     </>
                 </Row>
 
@@ -112,11 +140,13 @@ const PrintDialog = (props) => {
                     </Column>
         </Row>*/}
                 <Row>
+   {/*                 
                     <Column sm={2} md={4} lg={8}>
                         <NumberInput id="print-copies" min={1} max={100} value={1} label="Amount of Copies" invalidText="Please enter a number between 1 and 100"/>
                     </Column>
+   */}
                     <Column sm={1} md={1} lg={4}>
-                        <PrintButton size="sm" onClick={SetupPrinter}/>
+                        <PrintButton onClick={() => {document.getElementById("LabelPDF" + props.line1).contentWindow.print()}}/>
                     </Column>       
                 </Row>
             </FlexGrid>
