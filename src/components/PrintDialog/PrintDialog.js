@@ -24,15 +24,20 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'justify',
-        overflowWrap: 'break-word',
-        fontSize: '13',
+        fontSize: '11',
         fontWeight: 'bold',
+        textOverflow: "ellipsis",
     },
     image: {
-        height: 28,
+        height: 24,
         width: 100,
    //     transform: "rotate(270deg)"
-    }
+    },
+    datetime: {
+        textAlign: 'right',
+        overflowWrap: 'break-word',
+        fontSize: '8',
+    },
 });
 
 
@@ -61,7 +66,7 @@ const PrintDialog = (props) => {
     let canvas;
     const [open, setOpen] = useState(false);
     canvas = document.createElement('canvas');
-    JsBarcode(canvas, props.line1, {"textPosition":"top","height":30,});
+    JsBarcode(canvas, props.line1, {"textPosition":"top","height":25,});
     const barcode = canvas.toDataURL();
 
     return (
@@ -97,13 +102,16 @@ const PrintDialog = (props) => {
                         <Page size={[25, 50]} orientation="landscape" dpi={203} style={styles.page}>
                         <View>
                             <View style={styles.text}>
-                                <Text>{props.line2}<br/></Text>
+                                <Text style={{textOverflow:"ellipsis", maxLines:1}}>{props.line2}<br/></Text>
                             </View>
                             <View style={styles.text}>
                                 <Text>{props.line3}<br/></Text>
                             </View>
                             <View style={styles.text}>
                                 <Image src={barcode} style={styles.image}/>
+                            </View>
+                            <View style={styles.datetime}>
+                                <Text style={{ display:"flex", alignSelf:"flex-end" }}>{props.line4}</Text>
                             </View>
                         </View>
 
