@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 //import ReactPDF from '@react-pdf/renderer';
 import { Page, Text, View, Document, StyleSheet, Image, usePDF, } from '@react-pdf/renderer';
 import {PDFViewer,  } from '@react-pdf/renderer';
@@ -75,49 +75,62 @@ const PDFStructure = () => {
 
 const PrintLines = () => {
     console.log(line1, line2, barcode_number);
-    pdf_key += 1;
+    //pdf_key += 1;
     console.log(PDFStructure());
     loaded = false;
 }
 
+const UpdateText = (event) => {
+    if (event.target.id === "line1") {
+        line1 = event.target.value;
+    }
+    if (event.target.id === "line2") {
+//          line2 = new Date().toLocaleTimeString();
+        line2 = event.target.value;
+    }
+    if (event.target.id === "barcode") {
+        barcode_number = event.target.value;
+        UpdateBarcode(barcode_number);
+    }
+    pdf_key += 1;
+};
+
 const CustomPrintPage = () => {
+
     canvas = document.createElement('canvas');
-    JsBarcode(canvas, {barcode_number}, {"textPosition":"top","height":30,});
+    JsBarcode(canvas, barcode_number, {"textPosition":"top","height":30,});
     barcode = canvas.toDataURL();
-    const UpdateText = (event) => {
-        if (event.target.id === "line1") {
-            line1 = event.target.value;
-        }
-        if (event.target.id === "line2") {
-            line2 = event.target.value;
-        }
-        if (event.target.id === "barcode") {
-            barcode_number = event.target.value;
-            UpdateBarcode(barcode_number);
-        }
-    };
+    //console.log("Barcode data:" + barcode)
+
 
     const InternalUpdate = () => {
         updateInstance();
         PrintLines();
-
+        console.log(pdf_key);
     }
 
-    const [instance, updateInstance] = usePDF({document:
-        <PDFStructure/>
+
+        
+    const [instance, updateInstance] = usePDF({
+        document: <PDFStructure/>
     });
 
+
+    useEffect(() => {
+        //PrintLines()
+        updateInstance(<PDFStructure/>)
+    },[updateInstance,<PDFStructure/>])
     return (
     <>
-    <ContainedList label="Print template" kind="on-page">
+ {/*   <ContainedList label="Print template" kind="on-page">
         <ContainedListItem renderItem={Catalog} onClick={SetTemplate('2_lines_barcode')}>2 Lines + Barcode</ContainedListItem>
         <ContainedListItem renderItem={Catalog} onClick={SetTemplate('3_lines')} disabled>3 Lines</ContainedListItem>
         <ContainedListItem renderItem={Catalog} onClick={SetTemplate('2_lines')} disabled>2 Lines</ContainedListItem>
-    </ContainedList>
+    </ContainedList> */}
     <FluidForm>
     <TextInput id="line1" type="text" onChange={UpdateText} labelText="First line" placeholder="Patient Name" defaultValue={line1 === "Patient Name" ? "" : line1}/>
     <TextInput id="line2" type="text" onChange={UpdateText} labelText="Second line" placeholder="M | 54" defaultValue={line2 === "M | 54" ? "" : line2} />
-    <TextInput id="barcode" type="text" onChange={UpdateText} labelText="Barcode" placeholder="MAF200000" defaultValue={barcode_number === "MAF2000000" ? "" : barcode_number}/>
+    <TextInput id="barcode" type="text" onChange={UpdateText} labelText="Barcode" placeholder="MAF200000" defaultValue={barcode_number === "MAF200000" ? "" : barcode_number}/>
     </FluidForm>
     <PDFViewer showToolbar={false} id="LabelPDF">
         <PDFStructure/>
