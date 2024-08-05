@@ -72,6 +72,7 @@ const NavHeader = (props) => {
                     <HeaderMenuItem as={Link} to="/history">History</HeaderMenuItem>
 
                 </HeaderNavigation>
+                {/* 
                 <HeaderGlobalBar>
                     <Dropdown
                         className="printer-dropdown"
@@ -83,6 +84,7 @@ const NavHeader = (props) => {
                         itemToString={item => item ? item.text : ''}
                         selectedItem={props.data ? getPrinter(props.data) : ''} />
                 </HeaderGlobalBar>
+                */}
                 <SideNav aria-label="Side navigation" expanded={isSideNavExpanded} isPersistent={false} onOverlayClick={onClickSideNavExpand} href="#main-content" onSideNavBlur={onClickSideNavExpand} isRail>
                     <SideNavItems>
                         {isSideNavExpanded && <HeaderSideNavItems hasDivider={true}>

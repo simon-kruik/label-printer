@@ -19,13 +19,17 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'justify',
-        overflowWrap: 'break-word',
-        fontSize: '13',
+        fontSize: '11',
         fontWeight: 'bold',
-
+        textOverflow: "ellipsis",
+    },
+    datetime: {
+        textAlign: 'right',
+        overflowWrap: 'break-word',
+        fontSize: '8',
     },
     image: {
-        height: 28,
+        height: 24,
         width: 100,
    //     transform: "rotate(270deg)"
     }
@@ -45,10 +49,12 @@ const SetTemplate = (templateName) => {
 };
 
 const UpdateBarcode = (newBarcode) => {
-    JsBarcode(canvas, {barcode_number}, {"textPosition":"top","height":30,});
+    JsBarcode(canvas, {barcode_number}, {"textPosition":"top","height":25,});
     barcode = canvas.toDataURL();
 
 };
+
+
 
 const PDFStructure = () => {
     return(
@@ -57,13 +63,17 @@ const PDFStructure = () => {
             <View>
 
                 <View style={styles.text}>
-                    <Text>{line1}<br/></Text>
+                        <Text style={{textOverflow:"ellipsis", maxLines:1}}>{line1}<br/></Text>
+
                 </View>
                 <View style={styles.text}>
                     <Text>{line2}<br/></Text>
                 </View>
-                <View style={styles.text}>
+                <View>
                     <Image src={barcode} style={styles.image}/>
+                </View>
+                <View style={styles.datetime}>
+                    <Text style={{ display:"flex", alignSelf:"flex-end" }}>{new Date().toLocaleString()}</Text>
                 </View>
             </View>
 
@@ -115,6 +125,11 @@ const CustomPrintPage = () => {
         document: <PDFStructure/>
     });
 
+    const handleSearchKey = (keyEvent) => {
+        if (keyEvent.keyCode === 13) {
+            updateInstance();
+        }
+    }
 
     useEffect(() => {
         //PrintLines()
@@ -128,9 +143,9 @@ const CustomPrintPage = () => {
         <ContainedListItem renderItem={Catalog} onClick={SetTemplate('2_lines')} disabled>2 Lines</ContainedListItem>
     </ContainedList> */}
     <FluidForm>
-    <TextInput id="line1" type="text" onChange={UpdateText} labelText="First line" placeholder="Patient Name" defaultValue={line1 === "Patient Name" ? "" : line1}/>
-    <TextInput id="line2" type="text" onChange={UpdateText} labelText="Second line" placeholder="M | 54" defaultValue={line2 === "M | 54" ? "" : line2} />
-    <TextInput id="barcode" type="text" onChange={UpdateText} labelText="Barcode" placeholder="MAF200000" defaultValue={barcode_number === "MAF200000" ? "" : barcode_number}/>
+    <TextInput id="line1" type="text" onKeyDown={handleSearchKey} onChange={UpdateText} labelText="First line" placeholder="Patient Name" defaultValue={line1 === "Patient Name" ? "" : line1}/>
+    <TextInput id="line2" type="text" onKeyDown={handleSearchKey} onChange={UpdateText} labelText="Second line" placeholder="M | 54" defaultValue={line2 === "M | 54" ? "" : line2} />
+    <TextInput id="barcode" type="text" onKeyDown={handleSearchKey} onChange={UpdateText} labelText="Barcode" placeholder="MAF200000" defaultValue={barcode_number === "MAF200000" ? "" : barcode_number}/>
     </FluidForm>
     <PDFViewer showToolbar={false} id="LabelPDF">
         <PDFStructure/>
