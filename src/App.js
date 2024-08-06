@@ -19,7 +19,7 @@ function IntroText(props) {
         <Row>
           <Column sm={4} md={6} lg={8}>
           <h3>
-            Welcome to the Label Printer application - to get started choose your label printer in the top right and then select an option from the top to start printing. <br/><br/>Current printer: {props.data}
+            Welcome to the Label Printer application - to get started choose an option from the top to start printing. <br/><br/>
           </h3>
           {(process.env.NODE_ENV !== "production") &&
             <p>

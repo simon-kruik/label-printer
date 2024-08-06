@@ -69,7 +69,7 @@ const NavHeader = (props) => {
                 <HeaderNavigation aria-label="Label Printer">
                     <HeaderMenuItem as={Link} to="/patient_search">Patient Search</HeaderMenuItem>
                     <HeaderMenuItem as={Link} to="/custom_print">Design Custom Print</HeaderMenuItem>
-                    <HeaderMenuItem as={Link} to="/history">History</HeaderMenuItem>
+                {/*    <HeaderMenuItem as={Link} to="/history">History</HeaderMenuItem> */}
 
                 </HeaderNavigation>
                 {/* 
