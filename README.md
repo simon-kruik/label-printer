@@ -1,6 +1,14 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project requires a .env or .env.development file to be created in the root directory and populated with the following fields:
+```
+REACT_APP_PARENT_PAGE_URL="<BAHMNI HOMEPAGE>"
+REACT_APP_BAHMNI_HOST="<BAHMNI HOST/IP ADDRESS>"
+REACT_APP_OPENMRS_API_PATH="openmrs/ws/rest/v1"
+REACT_APP_API_USER="<API USER ON OPENMRS USERNAME>"
+REACT_APP_API_PASS="<API USER ON OPENMRS PASSWORD>"
+```
 
 ## Available Scripts
 
@@ -28,6 +36,8 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+Note: It's important to change a couple of things, including the basename tag in `index.js`, update URLs in your `.env` files and modify homepage and proxy values in `package.json`
 
 ### `npm run eject`
 
