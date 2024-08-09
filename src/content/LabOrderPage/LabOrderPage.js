@@ -1,6 +1,8 @@
-import PatientTable from '../../components/PatientTable';
+import LabOrderPatientTable from '../../components/LabOrderPatientTable';
 import React, { useEffect, useState } from 'react';
-import { DataTableSkeleton } from '@carbon/react';
+import { DataTableSkeleton, Button } from '@carbon/react';
+import { Renew } from '@carbon/icons-react';
+
 
 
 //import PrintButton from '../../components/PrintButton';
@@ -39,31 +41,13 @@ const getRowItems = (row) => {
         let new_patient_dict = {};
         new_patient_dict = {
                 id: row.uuid,
-                patient_id: row.display.split('-')[0],
-                local_name:'N/A',
-                //local_name: patientDict.attributes.display.split('=')[1],
-                age: row.person.age,
-                display_name: row.person.display,
-                gender: row.person.gender,
-                print: <PrintDialog line1={row.display.split('-')[0]} line2={row.person.display} line3={row.person.gender + " | " + row.person.age} line4={new Date().toLocaleString()}/>,
+                patient_id: row.identifier,
+                local_name: row.localName,
+                age: row.age,
+                display_name: row.name,
+                gender: row.gender,
+                print: <PrintDialog line1={row.identifier} line2={row.name} line3={row.gender + " | " + row.age} line4={new Date().toLocaleString()}/>,
             }
-        
-        if (row['person']){
-            if (row['person']['attributes']) {
-                if (row['person']['attributes'].length > 0) {
-                    new_patient_dict = {
-                        id: row.uuid,
-                        patient_id: row.display.split('-')[0],
-                        //local_name:'N/A',
-                        local_name: row.person.attributes[0].display.split('=')[1],
-                        age: row.person.age,
-                        display_name: row.person.display,
-                        gender: row.person.gender,
-                        print: <PrintDialog line1={row.display.split('-')[0]} line2={row.person.display} line3={row.person.gender + " | " + row.person.age} line4={new Date().toLocaleString()}/>,
-                    }
-                }
-            }
-        }
         return new_patient_dict;
         
     }
@@ -71,10 +55,13 @@ const getRowItems = (row) => {
 
 
 const LabOrderPage = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     //const [error, setError] = useState();
     const [rows, setRows] = useState([]);
- 
+    const [refreshRequested, setRefreshRequested] = useState(true);
+    const refreshResults = () => {
+        setRefreshRequested(true);
+    }
 
     useEffect(() => {
         async function getPatientList() {
@@ -87,15 +74,14 @@ const LabOrderPage = () => {
                 redirect: 'follow',
                 accept: "application/json",
             };
-            const url = "http://" + process.env.LAB_ORDER_API_HOST + "/" + process.env.LAB_ORDER_API_PATH;
+            const url = "http://" + process.env.REACT_APP_LAB_ORDER_API_HOST + "/" + process.env.REACT_APP_LAB_ORDER_API_PATH;
+            console.log("Getting Lab Orders from:",process.env.REACT_APP_LAB_ORDER_API_HOST)
             const data = await fetch( url, requestOptions );
             const result_dict = await data.json();
-            console.log("Returned result count: ", result_dict["results"].length);
-            for (let i=0; i < result_dict['results'].length; i++) {
-                const url = result_dict['results'][i]['links'][0]['uri'].replace('http://','https://');
-                //console.log("Fetching URL, ",url);
-                const patient_details = await fetch( url, requestOptions )
-                let patient_details_dict = await patient_details.json();
+            console.log("Got results: ", result_dict);
+            console.log("Returned result count: ", result_dict.length);
+            for (let i=0; i < result_dict.length; i++) {
+                let patient_details_dict = result_dict[i];
                 if (patient_details_dict['error'] ){
                     console.error("Error code fetching: ", patient_details_dict['error']);
                 }
@@ -103,18 +89,19 @@ const LabOrderPage = () => {
                     console.log("Fetched patient",patient_details_dict);
                     patient_list.push(getRowItems(patient_details_dict));
                 }
-            }            
+            }   
             setLoading(false);
             setRows(patient_list);
-            setSearched(true);
+            console.log(rows);
             return patient_list;
         }
-    if (! searched && searchTerm) {    
-        if (searchTerm.length >= 3) {
+        if (refreshRequested){
             getPatientList();
+            setRefreshRequested(false);
         }
-    };
-    },[searchTerm,searched])
+
+
+    },[refreshRequested,rows])
     //console.log("Rows value: ", rows);
     if (loading) {
         return (
@@ -123,7 +110,8 @@ const LabOrderPage = () => {
     }
     return (
         <>
-        <PatientTable headers={headers} rows={rows} searchAction={retrieveSearchTerm} />
+        <Button renderIcon={Renew} iconDescription="refresh" onClick={refreshResults}>Renew</Button>
+        <LabOrderPatientTable headers={headers} rows={rows} />
         </>
     );
 

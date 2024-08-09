@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const cors = require("cors");
 const mysql = require("mysql2/promise");
 
 
@@ -11,6 +12,9 @@ con.connect(function(err) {
 con.end();
 console.log("Disconnected until next query is run")
 */
+
+
+
 async function query(sql) {
   const con = await mysql.createConnection({
     host: process.env.SQL_HOST,
@@ -20,11 +24,14 @@ async function query(sql) {
     
 });
   const [results, ] = await con.execute(sql);
+  con.end();
   return results;
 }
 
 
 const app = express();
+
+app.use(cors());
 
 app.set("port", process.env.PORT || 3001);
 
@@ -65,9 +72,11 @@ router.get('/labOrderPatients', async function (req, res, next) {
     console.error(`Error while fetching Lab Order Patients `, err.message);
     next(err);
   }
+  
 });
 
 app.use("/api/", router);
+
 
 /*
 }

@@ -7,6 +7,7 @@ import NavHeader from './components/NavHeader';
 import PatientSearchPage from './content/PatientSearchPage';
 import HistoryPage from './content/HistoryPage';
 import CustomPrintPage from './content/CustomPrintPage';
+import LabOrderPage from './content/LabOrderPage';
 
 function load(key) {
   const item = window.sessionStorage.getItem(key);
@@ -67,6 +68,7 @@ function App()  {
           <Route path="patient_search" element={<PatientSearchPage/>}/>
           <Route path="history" element={<HistoryPage/>}/>
           <Route path="custom_print" element={<CustomPrintPage/>}/>
+          <Route path="lab_order_patients" element={<LabOrderPage/>}/>
         </Route>
       </Routes>
   </>

@@ -69,6 +69,8 @@ const NavHeader = (props) => {
                 <HeaderNavigation aria-label="Label Printer">
                     <HeaderMenuItem as={Link} to="/patient_search">Patient Search</HeaderMenuItem>
                     <HeaderMenuItem as={Link} to="/custom_print">Design Custom Print</HeaderMenuItem>
+                    <HeaderMenuItem as={Link} to="/lab_order_patients">Lab Orders</HeaderMenuItem>
+
                 {/*    <HeaderMenuItem as={Link} to="/history">History</HeaderMenuItem> */}
 
                 </HeaderNavigation>
@@ -90,7 +92,9 @@ const NavHeader = (props) => {
                         {isSideNavExpanded && <HeaderSideNavItems hasDivider={true}>
                             <HeaderMenuItem as={Link} to="/patient_search">Patient Search</HeaderMenuItem>
                             <HeaderMenuItem as={Link} to="/custom_print">Design Custom Print</HeaderMenuItem>
-                            <HeaderMenuItem as={Link} to="/history">History</HeaderMenuItem>
+                            <HeaderMenuItem as={Link} to="/lab_order_patients">Lab Orders</HeaderMenuItem>
+
+                            <HeaderMenuItem></HeaderMenuItem>
                         </HeaderSideNavItems>}
                     </SideNavItems>
                 </SideNav>

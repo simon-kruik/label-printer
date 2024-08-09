@@ -17,23 +17,8 @@ import {
 } from '@carbon/react';
 
 
-const PatientTable = ({ headers, rows, searchAction, searchDisabled=false }) => {
-    const [searchTerm, setSearchTerm] = useState();
+const LabOrderPatientTable = ({ headers, rows }) => {
 
-    const setTermForFutureSearch = (changeObj) => {
-        setSearchTerm(changeObj.target.value);
-    }
-
-    const getTermAndSearch = () => {
-        //console.log("Searching for: ",searchTerm);
-        searchAction(searchTerm);
-    }
-
-    const handleSearchKey = (keyEvent) => {
-        if (keyEvent.keyCode === 13) {
-            getTermAndSearch();
-        }
-    }
 
 
     //console.log("PatientTable got these rows: ", rows)
@@ -48,18 +33,11 @@ const PatientTable = ({ headers, rows, searchAction, searchDisabled=false }) => 
                 getHeaderProps,
                 getRowProps,
                 getTableProps,
-                onInputChange
             }) => (
                 <TableContainer
-                    title="Patient Search"
+                    title="Lab Order Patients"
                     //description="A list of patients which match the search query"
                 >
-                    <TableToolbar>
-                        <TableToolbarContent>
-                            <TableToolbarSearch onKeyDown={handleSearchKey}  onChange={setTermForFutureSearch} id="patient-search" persistent placeholder="Enter Patient Name or Identifier"/>
-                            <Button onClick={getTermAndSearch}>Search</Button>
-                        </TableToolbarContent>
-                    </TableToolbar>
                     <Table {...getTableProps()}>
                         <TableHead>
                             <TableRow>
@@ -90,4 +68,4 @@ const PatientTable = ({ headers, rows, searchAction, searchDisabled=false }) => 
     );
 };
 
-export default PatientTable;
+export default LabOrderPatientTable;
