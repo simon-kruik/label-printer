@@ -74,7 +74,7 @@ const LabOrderPage = () => {
                 redirect: 'follow',
                 accept: "application/json",
             };
-            const url = "http://" + process.env.REACT_APP_LAB_ORDER_API_HOST + "/" + process.env.REACT_APP_LAB_ORDER_API_PATH;
+            const url = "https://" + process.env.REACT_APP_LAB_ORDER_API_HOST + "/" + process.env.REACT_APP_LAB_ORDER_API_PATH;
             console.log("Getting Lab Orders from:",process.env.REACT_APP_LAB_ORDER_API_HOST)
             const data = await fetch( url, requestOptions );
             const result_dict = await data.json();
