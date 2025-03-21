@@ -1,3 +1,6 @@
+# Overview
+This is a simple application designed to fetch patient information from a Bahmni Electronic Medical Records System, and put it into a format that can be sent to a label printer (in particular a Honeywell PC43t). It also needed to include functionality to grab recent lab orders, which wasn't directly exposed in Bahmni APIs, hence an intermediary docker image and SQL access was used to fetch these.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
